@@ -16,7 +16,7 @@ public class webdemo2 extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String msg = lStrings.getString("http.method_get_not_supported");
+        String msg = lStrings.getString("http.method_post_not_supported");
         resp.sendError(500, msg);
     }
 }

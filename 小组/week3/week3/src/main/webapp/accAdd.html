@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="APP">
+    <form action="" method="post">
+        <input type="hidden" name="accid" id="accid" v-model="account.accid">
+        <label for="accname">账户名称:</label>
+        <input type="text" name="accname" id="accname" v-model="account.accname"><br>
+        <label for="passWord">账户密码:</label>
+        <input type="text" name="passWord" id="passWord" v-model="account.passWord"><br>
+        <label for="city">城市:</label>
+        <input type="text" name="city" id="city" v-model="account.city"><br>
+        <input type="button" @click="submit()" value="提交">
+    </form>
+</div>
+<script src="js/vue.js"></script>
+<script>
+    new Vue({
+        el: "#APP",
+        data() {
+            return {
+                account: {}
+            }
+        },
+        methods: {
+            submit() {
+                var _this = this;
+                var xhttp;
+                if (window.XMLHttpRequest) {
+                    xhttp = new XMLHttpRequest();
+                } else {
+                    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                // xhttp.send(JSON.parse(_this.account));
+                _this.account=JSON.stringify(_this.account);
+                console.log(_this.account);
+                xhttp.open("POST", "http://localhost:8080/week3/addService");
+                xhttp.setRequestHeader("Content-Type","application/json; charset=utf-8");
+                xhttp.send(_this.account);
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if (this.responseText == "success")
+                            location.href = "http://localhost:8080/week3/ajax-vue-jdbc.html";
+                    }
+                };
+
+            }
+        }
+    })
+</script>
+</body>
+</html>
+<!---->

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="10" cellspacing="0" width="500" height="300" id="accTable"></table>
+<input type="button" value="点我异步通讯获取数据库中数据" id="button">
+<div id="photo"></div>
+<br>
+<script>
+    document.getElementById("button").onclick = function () {
+        var xhttp;
+        if (window.XMLHttpRequest) {
+            xhttp = new XMLHttpRequest();
+        } else {
+            xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xhttp.open("GET", "http://localhost:8080/week3/selectAllService");
+        xhttp.send();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let accounts = JSON.parse(this.responseText);
+                let tableData = "<tr>\n" +
+                    "        <th>ID</th>\n" +
+                    "        <th>账户名称</th>\n" +
+                    "        <th>账户密码</th>\n" +
+                    "        <th>城市</th>\n" +
+                    "    </tr>";
+                for (let i = 0; i < accounts.length; i++) {
+                    let account = accounts[i];
+                    tableData += "<tr align=\"center\">\n" +
+                        "        <td>" + account.accid + "</td>\n" +
+                        "        <td>" + account.accname + "</td>\n" +
+                        "        <td>" + account.passWord + "</td>\n" +
+                        "        <td>" + account.city + "</td>\n" +
+                        "    </tr>";
+                }
+
+                document.getElementById("accTable").innerHTML = tableData;
+                document.getElementById("photo").innerHTML = "正常连接数据库有的图像:<br>"+"<img src=" + "\"./testPhotos/img.png\" width='500' height='300'>";
+            }
+        };
+    }
+
+
+</script>
+</body>
+</html>
